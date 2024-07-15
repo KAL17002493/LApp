@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from .models import Word
 from . import db
+import json
 
 views = Blueprint("views", __name__)
 
@@ -27,3 +28,15 @@ def index():
 @views.route("/about")
 def about():
     return render_template("about.html")
+
+@views.route("/delete-word", methods=["POST"])
+def delete_word():
+    word = json.loads(request.data)
+    wordId = word["wordId"]
+    word = Word.query.get(wordId)
+
+    if word:
+        db.session.delete(word)
+        db.session.commit()
+
+    return jsonify({})

@@ -13,8 +13,12 @@
 <h2>Words</h2>
 <ul>
     {% for word in words %}
-    <li>{{ word.englishWord }} - {{ word.germanWord }}</li>
+    <li>
+        {{ word.englishWord }} - {{ word.germanWord }} 
+        <button onclick="deleteWord('{{ word.id }}')">Delete</button>
+    </li>
     {% endfor %}
 </ul>
+
 
 {% endblock %}
