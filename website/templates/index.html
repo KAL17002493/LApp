@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Index Page{% endblock %}
+
+{% block pageContent%}
+<h1>Welcome to the Index page</h1>
+
+<form method="POST">
+    <input type="text" id="englishWord" name="englishWord" placeholder="English Word">
+    <input type="text" id="germanWord" name="germanWord" placeholder="German Word">
+    <button type="submit">Add / Save</button>
+</form>
+
+<h2>Words</h2>
+<ul>
+    {% for word in words %}
+    <li>{{ word.englishWord }} - {{ word.germanWord }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

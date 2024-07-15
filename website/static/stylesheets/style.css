@@ -1,0 +1,45 @@
+body{
+    width: 50%; /* Set a width */
+    margin: 0 auto; /* Horizontally center with auto margins */
+    background-color: rgb(123, 128, 129); /* Just for visual reference */
+}
+
+.conent{
+    background-color: rgb(143, 71, 71);
+    padding: 1rem;
+    border-radius: 5px;
+    margin-top: 1rem;
+}
+
+h1{
+    font-size: 2rem;
+    color: #e43030;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+}
+
+.nav{
+    background-color: #706b6b;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+.nav a{
+    background-color: #423939;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.errorMessage{
+    color: red;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.successMessage{
+    color: green;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
