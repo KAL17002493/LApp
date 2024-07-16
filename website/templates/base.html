@@ -7,41 +7,41 @@
     <title>{% block title %}Base template{% endblock %}</title>
 </head>
 <body>
+    <div class="nav">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/">Dead Link</a></li>
+            <li><a href="/">Nav is Fake</a></li>
+            <li><a href="/">Lies</a></li>
+        </ul>
+    </div>
 
-        <div class="nav">
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/">Dead Link</a></li>
-                <li><a href="/">Nav is Fake</a></li>
-                <li><a href="/">Lies</a></li>
-            </ul>
+    <div class="content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'error' %}
+                        <div class="errorMessage" role="alert">
+                            {{ message }}
+                        </div>
+                    {% else %}
+                        <div class="successMessage" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div>
+            {% block pageContent %}
+            <h1>Base template content</h1>
+            {% endblock %}
         </div>
-
-        <div class="content">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        {% if category == 'error' %}
-                            <div class="errorMessage" role="alert">
-                                {{ message }}
-                            </div>
-                        {% else %}
-                            <div class="successMessage" role="alert">
-                                {{ message }}
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-
-            <div>
-                {% block pageContent %}
-                <h1>Base template content</h1>
-                {% endblock %}
-            </div>
-        </div>
+    </div>
 
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/main.js') }}"></script>
 </body>
+
 </html>

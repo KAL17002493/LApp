@@ -3,54 +3,88 @@ body {
     padding: 0;
     background-color: rgb(123, 128, 129);
     height: 100vh; /* Use full viewport height */
-    display: grid;
-    place-items: center; /* Center content initially */
+    display: flex;
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    position: relative; /* Position relative to allow absolute positioning of nav */
 }
 
-.content {
-    background-color: rgb(143, 71, 71);
-    padding: 20px; /* Increased padding for better visual effect */
-    border-radius: 5px;
-    min-height: 500px; /* Ensure a minimum height */
-    width: 50%;
-    transform: translateY(-10%); /* Move content slightly upwards */
-}
-
-.nav{
+/* Nav Bar and everythign about it*/
+.nav {
     padding: 1rem;
-    margin-bottom: 1rem;
+    position: absolute; /* Position navigation bar absolutely */
+    left: 0; /* Align to the left */
+    top: 50%; /* Move it down to the middle of the screen */
+    transform: translate(30%, -100%); /* Adjust position slightly to the right and vertically center it */
 }
 
-.nav ul{
+.nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     width: 200px;
 }
 
-.nav ul li a{
+.nav ul li a {
     display: block;
     color: #000;
     padding: 8px 16px;
+    font-size: 1.2rem;
     text-decoration: none;
-
     background-color: #f1f1f1;
-    margin: 5px 0;
+    margin: 10px 0;
 }
 
-.nav ul li a:hover{
+.nav ul li a:hover {
     background-color: #555;
     color: white;
 }
 
+/* Content section in center of screen*/
+.content {
+    background-color: rgb(143, 71, 71);
+    padding: 20px; /* Increased padding for better visual effect */
+    border-radius: 5px;
+    min-height: 500px; /* Ensure a minimum height */
+    min-width: 50%;
+    box-sizing: border-box; /* Include padding and border in width and height calculations */
+    transform: translateY(-10%); /* Move content slightly upwards */
+}
+
+/* Words saved number box */
+.wordCount {
+    height: 180px;
+    width: 180px;
+    background-image: linear-gradient(to right, #F4BB44 , #fdde9a);
+    border-radius: 5px;
+
+    text-align: center;
+
+}
+
+.wordCount h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 110px;
+    color: #000;
+}
+
+.wordCount p {
+    margin: 0;
+    padding: 0;
+    font-size: 30px;
+    color: #000;
+}
+
 h1{
     font-size: 2rem;
-    color: #e43030;
+    color: #39a76a;
     font-weight: bold;
     margin: 0;
     padding: 0;
 }
 
+/* alert messages */
 .errorMessage{
     color: red;
     font-size: 1.2rem;

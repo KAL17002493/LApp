@@ -23,7 +23,7 @@ def index():
             flash("Word added", category="success")
             return redirect(url_for("views.index"))
 
-    return render_template("index.html", words=Word.query.all())
+    return render_template("index.html", words=Word.query.all(), wordCount=Word.query.count())
 
 @views.route("/about")
 def about():
