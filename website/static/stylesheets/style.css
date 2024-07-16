@@ -15,6 +15,10 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+ body button {
+    border: none; /* Remove white default border from all buttons */
+ }
+
 /* Nav Bar and everythign about it*/
 .nav {
     padding: 1rem;
@@ -51,8 +55,8 @@ body {
     background-color: rgb(51, 127, 150);
     padding: 20px;
     border-radius: 5px;
-    min-height: 500px; /* Ensure a minimum height */
-    min-width: 50%;
+    height: 500px; /* Ensure a minimum height */
+    width: 850px;
     box-sizing: border-box; /* Include padding and border in width and height calculations */
     transform: translateY(-10%); /* Move content slightly upwards */
     box-shadow: .5em .5em 1em;
@@ -120,7 +124,24 @@ body {
     border-radius: 5px;
     height: 460px; /* Ensure it takes the full height */
 
+
+
     background-color: rgb(69, 136, 156);
+
+    display: flex;/* Enables flexbox layout */
+}
+
+.word-list button{
+    background-color: rgba(224, 22, 22, 0.65);
+    color: black;
+    border-radius: 2px;
+    font-size: 0.95rem;
+    cursor:pointer;
+    transition: 0.12s ease-in-out;
+}
+
+.word-list button:hover{
+    background-color: rgba(240, 29, 29, 0.85);
 }
 
 .word-list li {
@@ -146,12 +167,14 @@ body {
     margin-top: 10px;
     border-radius: 3px;
     transition: 0.15s ease-in-out;
-    border: none;
+    cursor: pointer;
+
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+
 }
 
 .add-word button:hover{
-    background-color: #38882d;
+    background-color: #53cc43;
 }
 
 h1{
