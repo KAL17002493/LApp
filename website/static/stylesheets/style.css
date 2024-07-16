@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: rgb(123, 128, 129);
+    background-color: rgb(85, 85, 85);
     height: 100vh; /* Use full viewport height */
     display: flex;
     align-items: center; /* Center content vertically */
@@ -42,13 +42,15 @@ body {
 
 /* Content section in center of screen*/
 .content {
-    background-color: rgb(143, 71, 71);
-    padding: 20px; /* Increased padding for better visual effect */
+    background-color: rgb(51, 127, 150);
+    padding: 20px;
     border-radius: 5px;
     min-height: 500px; /* Ensure a minimum height */
     min-width: 50%;
     box-sizing: border-box; /* Include padding and border in width and height calculations */
     transform: translateY(-10%); /* Move content slightly upwards */
+
+    display: grid;
 }
 
 /* Words saved number box */
@@ -74,6 +76,14 @@ body {
     padding: 0;
     font-size: 30px;
     color: #000;
+}
+
+.wordList{
+    overflow: scroll;
+    scrollbar-width: thin;
+    overflow-x:hidden;
+
+    max-height: 250px;
 }
 
 h1{
