@@ -28,6 +28,16 @@ body {
     font-size: 1.2rem;
     text-align: center;;
     font-weight: bold;
+
+    /* Makes alert messages dissapers after "2s" */
+    animation:signup-response 0.5s 1;
+    animation-delay:2s;
+    animation-fill-mode: forwards; /* Makes it so the animation does not repeat */
+}
+
+@keyframes signup-response{
+    from {opacity :1;}
+    to {opacity :0;}
 }
 
 .error-message {

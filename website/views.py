@@ -11,6 +11,14 @@ def index():
         englishWord = request.form.get("englishWord")
         germanWord = request.form.get("germanWord")
 
+        #Check if the word is already in the database
+        if Word.query.filter_by(englishWord=englishWord).first():
+            flash(f"{englishWord}, already in database", category="error")
+        if Word.query.filter_by(germanWord=germanWord).first():
+            flash(f"{germanWord}, already in database", category="error")
+                
+
+        #Check if the word fields are empty
         if not englishWord or not germanWord:
             if not englishWord:
                 flash("English word field is empty", category="error")
