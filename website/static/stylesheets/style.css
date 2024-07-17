@@ -115,7 +115,7 @@ body {
     color: #000;
 }
 
-/* Saved word display */
+/* Display list of all words saved in db */
 .word-list {
     flex-grow: 1;
     overflow-y: auto;
@@ -123,33 +123,41 @@ body {
     overflow-x: hidden;
     border-radius: 5px;
     height: 460px; /* Ensure it takes the full height */
-
-
-
-    background-color: rgb(69, 136, 156);
-
-    display: flex;/* Enables flexbox layout */
+    background-color: rgb(74, 142, 163);
 }
 
-.word-list button{
-    background-color: rgba(224, 22, 22, 0.65);
-    color: black;
-    border-radius: 2px;
-    font-size: 0.95rem;
-    cursor:pointer;
-    transition: 0.12s ease-in-out;
-}
-
-.word-list button:hover{
-    background-color: rgba(240, 29, 29, 0.85);
+.word-list ul {
+    list-style: none; /* Remove default list styling */
+    margin: 10px 20px;
+    padding: 0;
 }
 
 .word-list li {
-    list-style-type: none;
     padding: 10px;
     border-bottom: 1px solid #000;
     color: #000000;
     font-size: 1.2rem;
+
+    display: flex; /* Enables flexbox */
+    flex-direction: row; /* Arrange children horizontally */
+    justify-content: space-between; /* Spread out the elements */
+}
+
+.word-list li p {
+    margin: 0;
+}
+
+.word-list button {
+    background-color: rgba(224, 22, 22, 0.65);
+    color: black;
+    border-radius: 2px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: 0.12s ease-in-out;
+}
+
+.word-list button:hover {
+    background-color: rgba(240, 29, 29, 0.85);
 }
 
 /* Index page add word input box and button style*/

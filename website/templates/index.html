@@ -16,7 +16,8 @@
             <ul>
                 {% for word in words %}
                 <li>
-                    {{ word.englishWord }} - {{ word.germanWord }} 
+                    <p>{{ word.englishWord }}</p>
+                    <p>{{ word.germanWord }}</p>
                     <button onclick="deleteWord('{{ word.id }}')">Delete</button>
                 </li>
                 {% endfor %}
