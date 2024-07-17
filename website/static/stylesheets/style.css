@@ -19,6 +19,32 @@ body {
     border: none; /* Remove white default border from all buttons */
  }
 
+ /* alert messages */
+.alert-messages {
+    position: absolute; /* Position navigation bar absolutely */
+    top: 50%; /* Move it down to the middle of the screen */
+    transform: translate(0, -400px); /* Adjust position slightly to the right and vertically center it */
+
+    font-size: 1.2rem;
+    text-align: center;;
+    font-weight: bold;
+
+    padding: 8px 80px;
+    background-color: #fd7c7c7e;
+    border-radius: 5px;
+    border: 3px solid rgba(202, 58, 58, 0.76);
+}
+
+.error-message {
+    color: rgb(133, 31, 31);
+    margin-top: 3px;
+}
+
+.success-message {
+    color: rgb(14, 102, 14);
+    margin-top: 3px;
+}
+
 /* Nav Bar and everythign about it*/
 .nav {
     padding: 1rem;
@@ -154,6 +180,7 @@ body {
     font-size: 0.95rem;
     cursor: pointer;
     transition: 0.12s ease-in-out;
+    border-radius: 2px;
 }
 
 .word-list button:hover {
@@ -191,17 +218,4 @@ h1{
     font-weight: bold;
     margin: 0;
     padding: 0;
-}
-
-/* alert messages */
-.errorMessage{
-    color: red;
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-.successMessage{
-    color: green;
-    font-size: 1.2rem;
-    font-weight: bold;
 }

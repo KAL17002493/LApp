@@ -17,6 +17,24 @@
         </ul>
     </div>
 
+    <div class="alert-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'error' %}
+                        <div class="error-message" role="alert">
+                            {{ message }}
+                        </div>
+                    {% else %}
+                        <div class="success-message" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
     <div class="content">
         <div>
             {% block pageContent %}
@@ -24,24 +42,6 @@
             {% endblock %}
         </div>
     </div>
-
-    <!--<div>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    {% if category == 'error' %}
-                        <div class="errorMessage" role="alert">
-                            {{ message }}
-                        </div>
-                    {% else %}
-                        <div class="successMessage" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    </div>-->
 
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/main.js') }}"></script>
 </body>
