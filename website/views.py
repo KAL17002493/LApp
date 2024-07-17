@@ -20,7 +20,6 @@ def index():
             new_word = Word(englishWord=englishWord, germanWord=germanWord)
             db.session.add(new_word)
             db.session.commit()
-            flash("Word added", category="success")
             return redirect(url_for("views.index"))
 
     return render_template("index.html", words=Word.query.all(), wordCount=Word.query.count())
