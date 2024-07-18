@@ -15,9 +15,25 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
- body button {
+body button {
     border: none; /* Remove white default border from all buttons */
  }
+
+/* Global input field styling */
+input {
+    background-color: #dadada;
+    border: #505050 solid 2px;
+    padding: 13px 15px;
+    border-radius: 5px;
+    margin-bottom: 10px; 
+}
+
+/* Global placeholder style */
+input::placeholder {
+    font-weight: bold;
+    opacity: 0.5;
+    color: rgb(0, 0, 0);
+  }
 
  /* alert messages */
 .alert-messages {
@@ -108,6 +124,7 @@ body {
     display: grid;
     grid-template-columns: 180px ;
     gap: 15px;
+    height: 100%;
 }
 
 .grid-container-index > div:nth-child(1) {
@@ -123,6 +140,7 @@ body {
 .grid-container-index > div:nth-child(3) {
     grid-column: span 1;
     justify-self: end;
+    align-self: end;
 }
 
 /* Words saved number box */
@@ -156,8 +174,13 @@ body {
     color: #000;
 }
 
+.search-word input{
+    margin-top: 30px;
+}
+
 /* Display list of all words saved in db */
 .word-list {
+    scrollbar-color: #8b4aa37c #428194;
     flex-grow: 1;
     overflow-y: auto;
     scrollbar-width: thin;
@@ -203,14 +226,6 @@ body {
 }
 
 /* Index page add word input box and button style*/
-.add-word input{
-    background-color: #f1f1f1;
-    padding: 13px 15px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    border: none;
-}
-
 .add-word button{
     background-color: #45ad37;
     padding: 8px 76px;
@@ -220,12 +235,12 @@ body {
     cursor: pointer;
 
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
-
 }
 
 .add-word button:hover{
     background-color: #53cc43;
 }
+
 
 h1{
     font-size: 2rem;
