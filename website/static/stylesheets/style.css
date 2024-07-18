@@ -334,7 +334,7 @@ input::placeholder {
 }
 
 .grid-container-practice > button:nth-child(4)::before {
-    background-image: url(../images/newIcon.png);
+    background-image: url(../images/bigBrain.png);
 }
 
 .grid-container-practice > button:nth-child(5)::before {
