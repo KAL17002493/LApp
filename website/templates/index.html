@@ -21,9 +21,9 @@
         <div class="word-list">
             <ul>
                 {% for word in words %}
-                <li>
-                    <p>{{ word.englishWord }}</p>
-                    <p>{{ word.germanWord }}</p>
+                <li class="word-item">
+                    <p class="english-word">{{ word.englishWord }}</p>
+                    <p class="german-word">{{ word.germanWord }}</p>
                     <button onclick="deleteWord('{{ word.id }}')">Delete</button>
                 </li>
                 {% endfor %}
@@ -39,5 +39,4 @@
         </form>
     </div>
 </div>
-
 {% endblock %}
