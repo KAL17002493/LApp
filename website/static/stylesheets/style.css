@@ -35,7 +35,8 @@ input::placeholder {
     color: rgb(0, 0, 0);
   }
 
- /* alert messages */
+
+ /*### Alert messages ###*/
 .alert-messages {
     position: absolute; /* Position navigation bar absolutely */
     top: 50%; /* Move it down to the middle of the screen */
@@ -76,7 +77,7 @@ input::placeholder {
     border: 2px solid rgba(54, 175, 54, 0.842);
 }
 
-/* Nav Bar and everythign about it*/
+/*### Nav Bar and everything about it ###*/
 .nav {
     padding: 1rem;
     position: absolute; /* Position navigation bar absolutely */
@@ -107,7 +108,7 @@ input::placeholder {
     color: white;
 }
 
-/* Content section in center of screen*/
+/*### Content section in center of screen ###*/
 .content {
     background-color: rgb(51, 127, 150);
     padding: 20px;
@@ -119,7 +120,7 @@ input::placeholder {
     box-shadow: .5em .5em 1em;
 }
 
-/* Gird as of 16/07 20:10 it is has been build specifically for the Index page*/
+/*### Index page grid layout ###*/
 .grid-container-index{
     display: grid;
     grid-template-columns: 180px ;
@@ -143,7 +144,7 @@ input::placeholder {
     align-self: end;
 }
 
-/* Words saved number box */
+/*### Words saved number box ###*/
 .word-count {
     height: 180px;
     width: 180px;
@@ -178,7 +179,7 @@ input::placeholder {
     margin-top: 30px;
 }
 
-/* Display list of all words saved in db */
+/*### Display list of all words saved in db ###*/
 .word-list {
     scrollbar-color: #8b4aa37c #428194;
     flex-grow: 1;
@@ -204,7 +205,18 @@ input::placeholder {
 
     display: flex; /* Enables flexbox */
     flex-direction: row; /* Arrange children horizontally */
-    justify-content: space-between; /* Spread out the elements */
+    align-items: center; /* Align items vertically centered */
+}
+
+.word-list li .english-word {
+    width: 40%; /* Fixed width for English word  this it to make sure that each following german word start from the same x point*/
+    text-align: left; /* Align text to the left */
+}
+
+.word-list li .german-word {
+    width: 40%; /* Fixed width for German word */
+    text-align: left; /* Align text to the left */
+    margin-left: auto; /* Push German word to the right */
 }
 
 .word-list li p {
@@ -218,14 +230,15 @@ input::placeholder {
     font-size: 0.95rem;
     cursor: pointer;
     transition: 0.12s ease-in-out;
-    border-radius: 2px;
+    margin-left: 10px; /* Add margin between word and button */
 }
 
 .word-list button:hover {
     background-color: rgba(240, 29, 29, 0.85);
 }
 
-/* Index page add word input box and button style*/
+
+/*### Index page add word input box and button style ###*/
 .add-word button{
     background-color: #45ad37;
     padding: 8px 76px;
@@ -241,11 +254,15 @@ input::placeholder {
     background-color: #53cc43;
 }
 
-
-h1{
-    font-size: 2rem;
-    color: #39a76a;
-    font-weight: bold;
-    margin: 0;
+/* Info page list style */
+.info-page ul {
+    list-style-type: none;
+    margin: 10px;
     padding: 0;
+}
+
+.info-page ul li {
+    padding: 10px;
+    color: #000000;
+    font-size: 1rem;
 }

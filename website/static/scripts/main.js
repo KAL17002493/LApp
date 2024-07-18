@@ -1,5 +1,6 @@
 console.log('Hello from main.js');
 
+//Function to search for a word
 document.getElementById('searchWord').addEventListener('input', function() {
     const searchValue = this.value.toLowerCase();
     const wordItems = document.querySelectorAll('.word-item');

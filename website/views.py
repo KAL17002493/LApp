@@ -5,6 +5,7 @@ import json
 
 views = Blueprint("views", __name__)
 
+#Home page
 @views.route("/", methods=["GET", "POST"]) 
 def index():
     if request.method == "POST":
@@ -32,10 +33,17 @@ def index():
 
     return render_template("index.html", words=Word.query.all(), wordCount=Word.query.count())
 
-@views.route("/about")
-def about():
-    return render_template("about.html")
+#Practice page
+@views.route("/practice")
+def practice():
+    return render_template("practice.html")
 
+#Info page
+@views.route("/info")
+def info():
+    return render_template("info.html")
+
+#Delete word route
 @views.route("/delete-word", methods=["POST"])
 def delete_word():
     word = json.loads(request.data)
