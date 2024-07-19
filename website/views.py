@@ -38,6 +38,31 @@ def index():
 def practice():
     return render_template("practice.html")
 
+#Practice english to german page
+@views.route("/english")
+def practice():
+    return render_template("english.html")
+
+#Practice german to english page
+@views.route("/german")
+def practice():
+    return render_template("german.html")
+
+#Practice mix of german and english
+@views.route("/mix")
+def practice():
+    return render_template("mix.html")
+
+#Practice new words
+@views.route("/new")
+def practice():
+    return render_template("new.html")
+
+#Practice terrible at
+@views.route("/terrible")
+def practice():
+    return render_template("terrible.html")
+
 #Info page
 @views.route("/info")
 def info():
