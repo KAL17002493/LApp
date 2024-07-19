@@ -19,6 +19,10 @@ body button {
     border: none; /* Remove white default border from all buttons */
  }
 
+ a {
+    text-decoration: none; /* Remove underline from links */
+ }
+
 /* Global input field styling */
 input {
     background-color: #dadada;
@@ -276,26 +280,26 @@ input::placeholder {
 
 /* This section is purely for corner rounding */
 /*English*/
-.grid-container-practice > button:nth-child(1) {
+.grid-container-practice > a:nth-child(1) {
     border-radius: 5px 0 0 0;
 }
 
 /*Mix*/
-.grid-container-practice > button:nth-child(3) {
+.grid-container-practice > a:nth-child(3) {
     border-radius: 0 5px 0 0;
 }
 
-.grid-container-practice > button:nth-child(4) {
+.grid-container-practice > a:nth-child(4) {
     border-radius: 0 0 0 5px;
 }
 
 /* Make last button take up 2 slots horizontally */
-.grid-container-practice > button:nth-child(5) {
+.grid-container-practice > a:nth-child(5) {
     grid-column: span 2;
     border-radius: 0 0 5px 0;
 }
 
-.grid-container-practice button {
+.grid-container-practice a {
     position: relative;
     background-color: rgba(0, 0, 0, 0.5);
     font-size: 2em;
@@ -303,10 +307,14 @@ input::placeholder {
     transition: 0.15s ease-in-out;
     overflow: hidden; /* Ensure the pseudo-element doesn't overflow the button */
     color: #dadada; /* Set text color for better visibility */
-    font-weight: bold;
+    font-weight: bold;    
+
+    display: flex; 
+    justify-content: center;
+    align-items: center;
 }
 
-.grid-container-practice button::before {
+.grid-container-practice a::before {
     content: '';
     position: absolute;
     top: 0;
@@ -321,36 +329,35 @@ input::placeholder {
 }
 
 /* Specific background images for each button */
-.grid-container-practice > button:nth-child(1)::before {
+.grid-container-practice > a:nth-child(1)::before {
     background-image: url(../images/englishBlue.png);
 }
 
-.grid-container-practice > button:nth-child(2)::before {
+.grid-container-practice > a:nth-child(2)::before {
     background-image: url(../images/germanBlue.png);
 }
 
-.grid-container-practice > button:nth-child(3)::before {
+.grid-container-practice > a:nth-child(3)::before {
     background-image: url(../images/mixBlue.png);
 }
 
-.grid-container-practice > button:nth-child(4)::before {
+.grid-container-practice > a:nth-child(4)::before {
     background-image: url(../images/bigBrain.png);
 }
 
-.grid-container-practice > button:nth-child(5)::before {
+.grid-container-practice > a:nth-child(5)::before {
     background-image: url(../images/coolCat.png);
 }
 
-.grid-container-practice button:hover {
+.grid-container-practice a:hover {
     color: #000;
 }
 
-.grid-container-practice button:hover::before {
+.grid-container-practice a:hover::before {
     opacity: 1;
 }
 
-.grid-container-practice button span {
+.grid-container-practice a span {
     position: relative;
     z-index: 1; /* Ensure the text is above the pseudo-element */
 }
-
