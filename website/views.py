@@ -39,27 +39,27 @@ def practice():
     return render_template("practice.html")
 
 #Practice english to german page
-@views.route("/english")
+@views.route("/practice/english")
 def english():
     return render_template("english.html")
 
 #Practice german to english page
-@views.route("/german")
+@views.route("/practice/german")
 def german():
     return render_template("german.html")
 
 #Practice mix of german and english
-@views.route("/mix")
+@views.route("/practice/mix")
 def mix():
     return render_template("mix.html")
 
 #Practice new words
-@views.route("/new")
+@views.route("/practice/new")
 def new():
     return render_template("new.html")
 
 #Practice terrible at
-@views.route("/terrible")
+@views.route("/practice/terrible")
 def terrible():
     return render_template("terrible.html")
 
