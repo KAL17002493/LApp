@@ -361,3 +361,34 @@ input::placeholder {
     position: relative;
     z-index: 1; /* Ensure the text is above the pseudo-element */
 }
+
+/*### Practice choices English, German, Mix etc... ###*/
+.practice-choices {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.practice-choices h1 {
+    position: fixed;
+    bottom: 50%;
+    font-size: 3rem;
+}
+
+
+.practice-choices form{ 
+    bottom: 15%;
+    position: fixed;
+}
+
+.practice-choices input {
+    font-size: 1.3rem;
+    padding: 10px 15px;
+    width: 300px;
+}
+
+.practice-choices input::placeholder{
+    font-weight: 500;
+}

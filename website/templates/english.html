@@ -3,6 +3,13 @@
 
 {% block pageContent%}
 
-<h1>English</h1>
+<div class="practice-choices">
+
+    <h1>{{ english_word }}</h1>
+    <form  method="POST">
+        <input autocomplete="off" type="text" id="guess" name="guess" placeholder="Guess in German">
+    </form>
+
+</div>
 
 {% endblock %}
