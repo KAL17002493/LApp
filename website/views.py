@@ -3,6 +3,7 @@ from .models import Word
 from . import db
 import json
 from sqlalchemy.sql import func
+from .otherFunctions import *
 
 views = Blueprint("views", __name__)
 
@@ -37,39 +38,23 @@ def index():
 #Practice page
 @views.route("/practice")
 def practice():
-
+    firstRandomWord()
     return render_template("practice.html")
 
 #Practice english to german page
 @views.route("/practice/english", methods=["GET", "POST"])
 def english():
-
-    if "random_german_word" not in session: 
-        get_random_word = Word.query.order_by(func.random()).first()
-        session["random_german_word"] = get_random_word.germanWord
-        session["random_english_word"] = get_random_word.englishWord
-
-        print("English: " + session["random_english_word"] + "\nGerman: " + session["random_german_word"])
-
     if request.method == "POST":
         guess = request.form.get("guess")
         german_word = session["random_german_word"]
 
         if german_word == guess:
             flash(f"Correct!!!", category="success")
-            get_random_word = Word.query.order_by(func.random()).first()
-            session["random_german_word"] = get_random_word.germanWord
-            session["random_english_word"] = get_random_word.englishWord
-
         else:
-            flash(f"My guess: {guess}", category="error")
-            get_random_word = Word.query.order_by(func.random()).first()
-            session["random_german_word"] = get_random_word.germanWord
-            session["random_english_word"] = get_random_word.englishWord
+            flash(f"My guess: {guess} || Correct answer: {german_word}", category="wrong")
 
-    print("English: " + session["random_english_word"] + "\nGerman: " + session["random_german_word"])
-
-    return render_template("english.html", english_word = session["random_english_word"])
+        subsequentRandomWord()
+    return render_template("english.html", english_word=session["random_english_word"])
 
 #Practice german to english page
 @views.route("/practice/german")

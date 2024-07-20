@@ -40,31 +40,41 @@ input::placeholder {
   }
 
 
- /*### Alert messages ###*/
+/*### Alert messages ###*/
 .alert-messages {
-    position: absolute; /* Position navigation bar absolutely */
-    top: 50%; /* Move it down to the middle of the screen */
-    transform: translate(0, -400px); /* Adjust position slightly to the right and vertically center it */
-
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -400px);
     font-size: 1.2rem;
-    text-align: center;;
+    text-align: center;
     font-weight: bold;
-
-    /* Makes alert messages dissapers after "2s" */
-    animation:signup-response 0.5s 1;
-    animation-delay:2s;
-    animation-fill-mode: forwards; /* Makes it so the animation does not repeat */
 }
 
-@keyframes signup-response{
-    from {opacity :1;}
-    to {opacity :0;}
+@keyframes hide-message {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
+.error-message, .success-message {
+    animation: hide-message 0.5s 1;
+    animation-delay: 2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes hide-wrong-message {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
+.wrong-message {
+    animation: hide-wrong-message 0.5s 1;
+    animation-delay: 10s; /* Change this delay to however long you want the wrong message to stay */
+    animation-fill-mode: forwards;
 }
 
 .error-message {
     color: rgb(133, 31, 31);
     margin-top: 3px;
-
     padding: 5px 80px;
     background-color: #fd7c7c7e;
     border-radius: 5px;
@@ -74,12 +84,21 @@ input::placeholder {
 .success-message {
     color: rgb(14, 102, 14);
     margin-top: 3px;
-
     padding: 5px 80px;
     background-color: rgba(104, 255, 104, 0.562);
     border-radius: 5px;
     border: 2px solid rgba(54, 175, 54, 0.842);
 }
+
+.wrong-message {
+    color: rgb(109, 33, 33);
+    margin-top: 3px;
+    padding: 5px 80px;
+    background-color: rgba(255, 99, 71, 0.7);
+    border-radius: 5px;
+    border: 2px solid rgba(255, 69, 0, 0.76);
+}
+
 
 /*### Nav Bar and everything about it ###*/
 .nav {
@@ -391,4 +410,5 @@ input::placeholder {
 
 .practice-choices input::placeholder{
     font-weight: 500;
+    text-align: center;
 }
