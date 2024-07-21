@@ -1,5 +1,10 @@
 console.log('Hello from main.js');
 
+//Function to focus on the input field when the page loads (mouse stays in the input field after making a word guess)
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("guess").focus();
+});
+
 //Function to search for a word
 document.getElementById('searchWord').addEventListener('input', function() {
     const searchValue = this.value.toLowerCase();
