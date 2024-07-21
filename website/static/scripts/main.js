@@ -1,5 +1,38 @@
 console.log('Hello from main.js');
 
+document.addEventListener('DOMContentLoaded', (event) => {
+    const input = document.getElementById('guess');
+    
+    // Mapping of keys to custom characters
+    const keyMapping = {
+        'Digit1': { normal: 'ä', shift: 'Ä' },
+        'Digit2': { normal: 'ü', shift: 'Ü' },
+        'Digit3': { normal: 'ö', shift: 'Ö' },
+        'Digit4': { normal: 'ß', shift: 'ẞ' }
+    };
+
+    input.addEventListener('keydown', (e) => {
+        // Check if the pressed key is in the keyMapping object
+        if (keyMapping.hasOwnProperty(e.code)) {
+            e.preventDefault(); // Prevent the default character from being entered
+
+            // Determine if shift key is pressed
+            const isShiftPressed = e.shiftKey;
+
+            // Get the current cursor position
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+
+            // Get the custom character from the keyMapping
+            const customChar = isShiftPressed ? keyMapping[e.code].shift : keyMapping[e.code].normal;
+            input.value = input.value.slice(0, start) + customChar + input.value.slice(end);
+
+            // Move the cursor to the correct position after the insertion
+            input.setSelectionRange(start + 1, start + 1);
+        }
+    });
+});
+
 //Add german characters to the input field when the buttons are clicked
 function addCharacter(event) {
     // Get the character from the data-char attribute
