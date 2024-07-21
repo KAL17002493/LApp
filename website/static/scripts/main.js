@@ -1,5 +1,7 @@
 console.log('Hello from main.js');
 
+//When pressing 1 - 4 on keayboard, the german characters will be added to the input field (ä, ü, ö, ß)
+//Shift + 1 - 4 will add the uppercase version of the characters (Ä, Ü, Ö, ẞ)
 document.addEventListener('DOMContentLoaded', (event) => {
     const input = document.getElementById('guess');
     
@@ -34,13 +36,48 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 //Add german characters to the input field when the buttons are clicked
+// Add event listener to each button
+document.querySelectorAll('.addChar').forEach(button => {
+    button.addEventListener('click', addCharacter);
+});
+
+// Add German characters to the input field when the buttons are clicked
 function addCharacter(event) {
-    // Get the character from the data-char attribute
-    const char = event.target.getAttribute('data-char');
+     // Get the character from the data-char attribute
+    let char = event.target.getAttribute('data-char');
+        
+    // Check if the Shift key is pressed
+    if (event.shiftKey) {
+        // Convert character to uppercase if possible
+        if (char === 'ä') char = 'Ä';
+        else if (char === 'ü') char = 'Ü';
+        else if (char === 'ö') char = 'Ö';
+        else if (char === 'ß') char = 'ẞ';
+    }
+        
     // Get the input field
     const inputField = document.getElementById('guess');
     // Append the character to the input field's current value
     inputField.value += char;
+}
+
+// Event listeners for Shift key press and release + change charaters displayed on buttons to uppercase when Shift key is pressed
+document.addEventListener('keydown', handleShiftKey);
+document.addEventListener('keyup', handleShiftKey);
+
+function handleShiftKey(event) {
+    const isShiftPressed = event.shiftKey;
+    document.querySelectorAll('.addChar').forEach(button => {
+        let char = button.getAttribute('data-char');
+        if (isShiftPressed) {
+            if (char === 'ä') button.textContent = 'Ä';
+            else if (char === 'ü') button.textContent = 'Ü';
+            else if (char === 'ö') button.textContent = 'Ö';
+            else if (char === 'ß') button.textContent = 'ẞ';
+        } else {
+            button.textContent = char;
+        }
+    });
 }
 
 // Attach event listeners to all buttons with the class 'addChar'

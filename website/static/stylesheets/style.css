@@ -438,7 +438,8 @@ input::placeholder {
 
 .characters button {
     background-color: rgb(92, 171, 196);
-    padding: 8px 15px;
+    height: 35px;
+    width: 40px;
     margin: 2px;
     transition: 0.15s ease-in-out;
     cursor: pointer;
