@@ -426,3 +426,33 @@ input::placeholder {
 .practice-choices input:focus::-moz-placeholder {
     opacity: 20%;
 }
+
+/* German characters at bottom of each practice page under the input field */
+.characters{
+    display: flex;
+    justify-content: center;
+
+    bottom: 3.5%;
+    position: fixed;
+}
+
+.characters button {
+    background-color: rgb(92, 171, 196);
+    padding: 8px 15px;
+    margin: 2px;
+    transition: 0.15s ease-in-out;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.characters > button:first-child {
+    border-radius: 3px 0 0 3px;
+}
+
+.characters > button:last-child {
+    border-radius: 0 3px 3px 0;
+}
+
+.characters button:hover {
+    background-color: rgb(92, 171, 196, 0.7);
+}
