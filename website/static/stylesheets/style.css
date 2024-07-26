@@ -290,6 +290,10 @@ input::placeholder {
     font-size: 1rem;
 }
 
+.info-page ul li:last-child {
+    color: #8a0f0f;
+}
+
 /*### Practice page style ###*/
 .grid-container-practice{
     display: grid;

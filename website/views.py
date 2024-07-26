@@ -57,9 +57,31 @@ def english():
     return render_template("english.html", english_word=session["random_english_word"])
 
 #Practice german to english page
-@views.route("/practice/german")
+@views.route("/practice/german", methods=["GET", "POST"])
 def german():
-    return render_template("german.html")
+        
+    if request.method == "POST":
+        guess = request.form.get("guess")
+        english_word = session["random_english_word"]
+
+        check_portion = english_word.split("(")[0] #Check if the word has a bracket and remove it from the guess portion / check portion
+        check_portion = [part.strip() for part in check_portion.split("/")] #Check if the word has a slash turn words on either side into a list item
+
+        correct = False
+
+        if len(check_portion) > 1:  # If check_portion has more than one item run this block
+            correct = guess in check_portion[:2]
+        else:  # If check_portion has only one item run this block
+            correct = check_portion[0] == guess
+
+        if correct:
+            flash(f"{guess} is correct!!!" if len(check_portion) > 1 else "Correct!!!", category="success")
+        else:
+            flash(f"My guess: {guess} || Correct answer: {english_word}", category="wrong")
+
+        subsequentRandomWord()
+
+    return render_template("german.html", german_word=session["random_german_word"])
 
 #Practice mix of german and english
 @views.route("/practice/mix")
