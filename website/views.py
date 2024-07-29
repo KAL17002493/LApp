@@ -47,7 +47,7 @@ def practice():
 @views.route("/practice/english", methods=["GET", "POST"])
 def english():
     if request.method == "POST":
-        guess = request.form.get("guess")
+        guess = request.form.get("guess").strip()
         german_word = session["random_german_word"]
 
         if german_word == guess:
@@ -61,13 +61,12 @@ def english():
 #Practice german to english page
 @views.route("/practice/german", methods=["GET", "POST"])
 def german():
-        
     if request.method == "POST":
-        guess = request.form.get("guess")
+        guess = request.form.get("guess").strip()
         english_word = session["random_english_word"]
 
-        check_portion = english_word.split("(")[0] #Check if the word has a bracket and remove it from the guess portion / check portion
-        check_portion = [part.strip() for part in check_portion.split("/")] #Check if the word has a slash turn words on either side into a list item
+        check_portion = english_word.split("(")[0]  # Check if the word has a bracket and remove it from the guess portion / check portion
+        check_portion = [part.strip() for part in check_portion.split("/")]  # Check if the word has a slash turn words on either side into a list item
 
         correct = False
 
@@ -81,6 +80,10 @@ def german():
         else:
             flash(f"My guess: {guess} || Correct answer: {english_word}", category="wrong")
 
+        subsequentRandomWord()
+
+    #Ensure no duplicate word is selected (it reruns the function until a new word is found)
+    while not recentWordsGuessed(session["random_english_word"]):
         subsequentRandomWord()
 
     return render_template("german.html", german_word=session["random_german_word"])
@@ -98,11 +101,16 @@ def new():
 #Practice terrible at
 @views.route("/practice/terrible")
 def terrible():
+
+    session.clear() #Clear the session storage
+    print("Session cleared")
+
     return render_template("terrible.html")
 
 #Info page
 @views.route("/info")
 def info():
+
     return render_template("info.html")
 
 #Delete word route
