@@ -3,6 +3,7 @@ from .models import Word
 from . import db
 import json
 from sqlalchemy.sql import func
+from sqlalchemy import desc #Importing desc to order the words from newest to oldest
 from .otherFunctions import *
 
 views = Blueprint("views", __name__)
@@ -11,10 +12,10 @@ views = Blueprint("views", __name__)
 @views.route("/", methods=["GET", "POST"]) 
 def index():
     if request.method == "POST":
-        englishWord = request.form.get("englishWord")
-        germanWord = request.form.get("germanWord")
+        englishWord = request.form.get("englishWord").strip()
+        germanWord = request.form.get("germanWord").strip()
 
-        #Check if the word is already in the database
+        #Check if the word is already in the database and flash an error message if instance of word is found
         if Word.query.filter_by(englishWord=englishWord).first():
             flash(f"{englishWord}, already in database", category="error")
         if Word.query.filter_by(germanWord=germanWord).first():
@@ -33,12 +34,13 @@ def index():
             db.session.commit()
             return redirect(url_for("views.index"))
 
-    return render_template("index.html", words=Word.query.all(), wordCount=Word.query.count())
+    #Render the index page with the words in the database, from newest to oldest and total word count
+    return render_template("index.html", words = Word.query.order_by(desc(Word.id)).all(), wordCount=Word.query.count())
 
 #Practice page
 @views.route("/practice")
 def practice():
-    firstRandomWord()
+    firstRandomWord() #Genreates initial random word and stores it in session storage
     return render_template("practice.html")
 
 #Practice english to german page
