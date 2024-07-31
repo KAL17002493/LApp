@@ -55,7 +55,6 @@ def recentWordsGuessed(word):
     return True  # Indicate no duplicate word
 
 def check_answer(guess, correct_answers):
-    """ Helper function to check if the guess is correct """
     if isinstance(correct_answers, list):
         return guess in correct_answers[:2] if len(correct_answers) > 1 else correct_answers[0] == guess
     return guess == correct_answers
