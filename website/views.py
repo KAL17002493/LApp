@@ -55,7 +55,13 @@ def english():
         else:
             flash(f"My guess: {guess} || Correct answer: {german_word}", category="wrong")
 
+
         subsequentRandomWord()
+
+    #Ensure no duplicate word is selected (it reruns the function until a new word is found)
+    while not recentWordsGuessed(session["random_english_word"]):
+        subsequentRandomWord()
+
     return render_template("english.html", english_word=session["random_english_word"])
 
 #Practice german to english page

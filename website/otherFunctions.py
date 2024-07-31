@@ -22,6 +22,7 @@ def subsequentRandomWord():
     session["random_english_word"] = get_random_word.englishWord
     print("English: " + session["random_english_word"] + "\nGerman: " + session["random_german_word"])
 
+#Makes sure that the same word will not appear for a list the next 5 words
 def recentWordsGuessed(word):
     if "recent_word_list" not in session:  # Create new session if one does not exist yet
         session["recent_word_list"] = []
