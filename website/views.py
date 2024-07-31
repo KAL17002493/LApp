@@ -82,7 +82,7 @@ def german():
             correct = check_portion[0] == guess
 
         if correct:
-            flash(f"{guess} is correct!!!" if len(check_portion) > 1 else "Correct!!!", category="success")
+            flash(f"{guess} is correct!!!", category="success")
         else:
             flash(f"My guess: {guess} || Correct answer: {english_word}", category="wrong")
 
@@ -95,9 +95,45 @@ def german():
     return render_template("german.html", german_word=session["random_german_word"])
 
 #Practice mix of german and english
-@views.route("/practice/mix")
+@views.route("/practice/mix", methods=["GET", "POST"])
 def mix():
-    return render_template("mix.html")
+
+    random_number = session["random_number"]
+
+    if request.method == "POST":
+        guess = request.form.get("guess").strip()
+
+        if random_number == 0:  # Display in German, guess in English
+            english_word = session["random_english_word"]
+
+            check_portion = english_word.split("(")[0]  # Remove bracketed part if present
+            check_portion = [part.strip() for part in check_portion.split("/")]  # Handle multiple correct answers
+
+            correct = guess in check_portion[:2] if len(check_portion) > 1 else check_portion[0] == guess
+
+            if correct:
+                flash(f"{guess} is correct!!!", category="success")
+            else:
+                flash(f"My guess: {guess} || Correct answer: {english_word}", category="wrong")
+        else:  # Display in English, guess in German
+            german_word = session["random_german_word"]
+
+            if german_word == guess:
+                flash("Correct!!!", category="success")
+            else:
+                flash(f"My guess: {guess} || Correct answer: {german_word}", category="wrong")
+
+    # Ensure no duplicate word is selected
+    while not recentWordsGuessed(session["random_english_word"]):
+        subsequentRandomWord()
+
+    #This section send the correct in correct langue to the actual view
+    if random_number == 0:  # Display in German, guess in English
+        word_to_display = session["random_german_word"]
+    else:  # Display in English, guess in German
+        word_to_display = session["random_english_word"]
+
+    return render_template("mix.html", word_to_display=word_to_display)
 
 #Practice new words
 @views.route("/practice/new")
@@ -105,7 +141,7 @@ def new():
     return render_template("new.html")
 
 #Practice terrible at
-@views.route("/practice/terrible")
+@views.route("/practice/terrible", methods=["GET", "POST"])
 def terrible():
 
     session.clear() #Clear the session storage

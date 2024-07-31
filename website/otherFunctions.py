@@ -2,6 +2,7 @@ from flask import session
 from .models import Word
 from . import db
 from sqlalchemy.sql import func
+import random
 
 #Generates the inital random word in session, it is ran when the practice page is loaded
 def firstRandomWord():
@@ -10,10 +11,17 @@ def firstRandomWord():
         session["random_german_word"] = get_random_word.germanWord
         session["random_english_word"] = get_random_word.englishWord
         print("English: " + session["random_english_word"] + "\nGerman: " + session["random_german_word"])
+
+        randomNumber()
     else:
         subsequentRandomWord()
 
     print("English: " + session["random_english_word"] + "\nGerman: " + session["random_german_word"])
+
+#Generate 1 or 0 for Mix page to know which leangue to display
+def randomNumber():
+    random_number = random.randint(0, 1)
+    session["random_number"] = random_number
 
 #Generates a subsequent random word in session, it is ran when the user submits a guess
 def subsequentRandomWord():

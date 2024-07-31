@@ -1,1 +1,21 @@
-<h1>Mix</h1>
+{% extends "base.html" %}
+{% block title %}Practice Mix{% endblock %}
+
+{% block pageContent%}
+
+<div class="practice-choices">
+
+    <h1>{{word_to_display}}</h1>
+    <form id="guessForm" method="POST">
+        <input autocomplete="off" type="text" id="guess" name="guess" placeholder="Guess in German">
+    </form>
+
+    <div class="characters">
+        <button class=addChar data-char="ä">ä</button>
+        <button class=addChar data-char="ü">ü</button>
+        <button class=addChar data-char="ö">ö</button>
+        <button class=addChar data-char="ß">ẞ</button>
+    </div>
+</div>
+
+{% endblock %}
