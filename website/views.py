@@ -48,15 +48,12 @@ def practice():
 def english():
     if request.method == "POST":
         guess = request.form.get("guess").strip()
-        german_word = session["random_german_word"]
+        german_word = session.get("random_german_word")
 
-        if german_word == guess:
-            flash(f"Correct!!!", category="success")
+        if check_answer(guess, german_word):
+            flash("Correct!!!", category="success")
         else:
             flash(f"My guess: {guess} || Correct answer: {german_word}", category="wrong")
-
-
-        subsequentRandomWord()
 
     #Ensure no duplicate word is selected (it reruns the function until a new word is found)
     while not recentWordsGuessed(session["random_english_word"]):
@@ -68,25 +65,16 @@ def english():
 @views.route("/practice/german", methods=["GET", "POST"])
 def german():
     if request.method == "POST":
+
         guess = request.form.get("guess").strip()
-        english_word = session["random_english_word"]
-
-        check_portion = english_word.split("(")[0]  # Check if the word has a bracket and remove it from the guess portion / check portion
-        check_portion = [part.strip() for part in check_portion.split("/")]  # Check if the word has a slash turn words on either side into a list item
-
-        correct = False
-
-        if len(check_portion) > 1:  # If check_portion has more than one item run this block
-            correct = guess in check_portion[:2]
-        else:  # If check_portion has only one item run this block
-            correct = check_portion[0] == guess
+        english_word = session.get("random_english_word")
+        check_portion = [part.strip() for part in english_word.split("(")[0].split("/")]  # Handle multiple correct answers
+        correct = check_answer(guess, check_portion)
 
         if correct:
             flash(f"{guess} is correct!!!", category="success")
         else:
             flash(f"My guess: {guess} || Correct answer: {english_word}", category="wrong")
-
-        subsequentRandomWord()
 
     #Ensure no duplicate word is selected (it reruns the function until a new word is found)
     while not recentWordsGuessed(session["random_english_word"]):
@@ -97,41 +85,34 @@ def german():
 #Practice mix of german and english
 @views.route("/practice/mix", methods=["GET", "POST"])
 def mix():
-
-    random_number = session["random_number"]
+    random_number = session.get("random_number")
 
     if request.method == "POST":
         guess = request.form.get("guess").strip()
 
         if random_number == 0:  # Display in German, guess in English
-            english_word = session["random_english_word"]
-
-            check_portion = english_word.split("(")[0]  # Remove bracketed part if present
-            check_portion = [part.strip() for part in check_portion.split("/")]  # Handle multiple correct answers
-
-            correct = guess in check_portion[:2] if len(check_portion) > 1 else check_portion[0] == guess
+            english_word = session.get("random_english_word")
+            check_portion = [part.strip() for part in english_word.split("(")[0].split("/")]  # Handle multiple correct answers
+            correct = check_answer(guess, check_portion)
 
             if correct:
                 flash(f"{guess} is correct!!!", category="success")
             else:
                 flash(f"My guess: {guess} || Correct answer: {english_word}", category="wrong")
         else:  # Display in English, guess in German
-            german_word = session["random_german_word"]
+            german_word = session.get("random_german_word")
 
-            if german_word == guess:
+            if check_answer(guess, german_word):
                 flash("Correct!!!", category="success")
             else:
                 flash(f"My guess: {guess} || Correct answer: {german_word}", category="wrong")
 
     # Ensure no duplicate word is selected
-    while not recentWordsGuessed(session["random_english_word"]):
+    while not recentWordsGuessed(session.get("random_english_word")):
         subsequentRandomWord()
 
-    #This section send the correct in correct langue to the actual view
-    if random_number == 0:  # Display in German, guess in English
-        word_to_display = session["random_german_word"]
-    else:  # Display in English, guess in German
-        word_to_display = session["random_english_word"]
+    # Send the correct word to the view
+    word_to_display = session.get("random_german_word") if random_number == 0 else session.get("random_english_word")
 
     return render_template("mix.html", word_to_display=word_to_display)
 
