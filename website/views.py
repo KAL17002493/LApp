@@ -55,9 +55,7 @@ def english():
         else:
             flash(f"My guess: {guess} || Correct answer: {german_word}", category="wrong")
 
-    #Ensure no duplicate word is selected (it reruns the function until a new word is found)
-    while not recentWordsGuessed(session["random_english_word"]):
-        subsequentRandomWord()
+    getNextWord()
 
     return render_template("english.html", english_word=session["random_english_word"])
 
@@ -65,7 +63,6 @@ def english():
 @views.route("/practice/german", methods=["GET", "POST"])
 def german():
     if request.method == "POST":
-
         guess = request.form.get("guess").strip()
         english_word = session.get("random_english_word")
         check_portion = [part.strip() for part in english_word.split("(")[0].split("/")]  # Handle multiple correct answers
@@ -76,16 +73,14 @@ def german():
         else:
             flash(f"My guess: {guess} || Correct answer: {english_word}", category="wrong")
 
-    #Ensure no duplicate word is selected (it reruns the function until a new word is found)
-    while not recentWordsGuessed(session["random_english_word"]):
-        subsequentRandomWord()
+        getNextWord()
 
     return render_template("german.html", german_word=session["random_german_word"])
 
 #Practice mix of german and english
 @views.route("/practice/mix", methods=["GET", "POST"])
 def mix():
-    random_number = session.get("random_number")
+    random_number = session.get("random_number") #This must be here so for the first round of guesses the code would know what random_number is
 
     if request.method == "POST":
         guess = request.form.get("guess").strip()
@@ -107,9 +102,11 @@ def mix():
             else:
                 flash(f"My guess: {guess} || Correct answer: {german_word}", category="wrong")
 
-    # Ensure no duplicate word is selected
-    while not recentWordsGuessed(session.get("random_english_word")):
-        subsequentRandomWord()
+        #Roll the random number again after processing the guess
+        randomNumber()
+        random_number = session.get("random_number") #This MUST be here, it handes all of the following random_number checks / guesses (I am tired whiles writing this I could be more specific but cannot be botehred)
+
+    getNextWord()
 
     # Send the correct word to the view
     word_to_display = session.get("random_german_word") if random_number == 0 else session.get("random_english_word")
@@ -119,22 +116,6 @@ def mix():
 #Practice new words
 @views.route("/practice/new", methods=["GET", "POST"])
 def new():
-    randomNewWord()
-
-    if request.method == "POST":
-        guess = request.form.get("guess").strip()
-        english_word = session.get("random_english_word")
-        check_portion = [part.strip() for part in english_word.split("(")[0].split("/")]  # Handle multiple correct answers
-        correct = check_answer(guess, check_portion)
-
-        if correct:
-            flash(f"{guess} is correct!!!", category="success")
-        else:
-            flash(f"My guess: {guess} || Correct answer: {english_word}", category="wrong")
-
-    #Ensure no duplicate word is selected (it reruns the function until a new word is found)
-    while not recentWordsGuessed(session["random_english_word"]):
-        randomNewWord()
 
     return render_template("new.html", word=session["random_german_word"])
 
@@ -146,6 +127,16 @@ def terrible():
     print("Session cleared")
 
     return render_template("terrible.html")
+
+#Practice terrible at
+@views.route("/session-variables", methods=["GET", "POST"])
+def sessionVariables():
+
+    print("======== Session variables =========")
+    print(session.keys())
+    print("====================================")
+
+    return render_template("info.html")
 
 #Info page
 @views.route("/info")

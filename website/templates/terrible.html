@@ -1,1 +1,21 @@
-<h1>Terrible</h1>
+{% extends "base.html" %}
+{% block title %}Practice Terrible{% endblock %}
+
+{% block pageContent%}
+
+<div class="practice-choices">
+    <div>Terrible</div>
+    <h1>For now this clears session</h1>
+    <form id="guessForm" method="POST">
+        <input autocomplete="off" type="text" id="guess" name="guess" placeholder="Guess here">
+    </form>
+
+    <div class="characters">
+        <button class=addChar data-char="ä">ä</button>
+        <button class=addChar data-char="ü">ü</button>
+        <button class=addChar data-char="ö">ö</button>
+        <button class=addChar data-char="ß">ẞ</button>
+    </div>
+</div>
+
+{% endblock %}
