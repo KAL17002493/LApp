@@ -3,6 +3,8 @@ from .models import Word
 from . import db
 from sqlalchemy.sql import func
 import random
+from random import choice
+from datetime import datetime, timedelta
 
 #Generates the inital random word in session, it is ran when the practice page is loaded
 def firstRandomWord():
@@ -22,6 +24,25 @@ def firstRandomWord():
 def randomNumber():
     random_number = random.randint(0, 1)
     session["random_number"] = random_number
+
+#Random new word (From last week for now)
+def randomNewWord():
+    last_week = datetime.now() - timedelta(days=7) #All items from last week
+    ran_new_word = Word.query.filter(Word.dateAdded >= last_week).order_by(func.random()).first()
+
+    if ran_new_word is None:
+        session["random_english_word"], session["random_german_word"] = "No new words added in last week"
+        print("No new words added in last week")
+    else:
+        session["random_english_word"] = ran_new_word.englishWord
+        session["random_german_word"] = ran_new_word.germanWord
+
+    print("Random new word: " + ran_new_word.englishWord + " Date added: " + str(ran_new_word.dateAdded))
+
+    #get_random_word = Word.query.order_by(func.random()).first()
+    #session["random_german_word"] = get_random_word.germanWord
+    #session["random_english_word"] = get_random_word.englishWord
+    #print("English: " + session["random_english_word"] + "\nGerman: " + session["random_german_word"])
 
 #Generates a subsequent random word in session, it is ran when the user submits a guess
 def subsequentRandomWord():

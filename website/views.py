@@ -117,9 +117,26 @@ def mix():
     return render_template("mix.html", word_to_display=word_to_display)
 
 #Practice new words
-@views.route("/practice/new")
+@views.route("/practice/new", methods=["GET", "POST"])
 def new():
-    return render_template("new.html")
+    randomNewWord()
+
+    if request.method == "POST":
+        guess = request.form.get("guess").strip()
+        english_word = session.get("random_english_word")
+        check_portion = [part.strip() for part in english_word.split("(")[0].split("/")]  # Handle multiple correct answers
+        correct = check_answer(guess, check_portion)
+
+        if correct:
+            flash(f"{guess} is correct!!!", category="success")
+        else:
+            flash(f"My guess: {guess} || Correct answer: {english_word}", category="wrong")
+
+    #Ensure no duplicate word is selected (it reruns the function until a new word is found)
+    while not recentWordsGuessed(session["random_english_word"]):
+        randomNewWord()
+
+    return render_template("new.html", word=session["random_german_word"])
 
 #Practice terrible at
 @views.route("/practice/terrible", methods=["GET", "POST"])
