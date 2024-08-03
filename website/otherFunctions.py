@@ -28,7 +28,8 @@ def get_random_word_from_db(word_query, count_threshold=5):
     if word_query.count() == 0:
         session["random_german_word"] = "No words available"
         session["random_english_word"] = "No words available"
-        raise Exception("No words available in the database.")
+        print ("No words available in the database.")
+        return
 
     # Run a loop to get a word
     while True:
