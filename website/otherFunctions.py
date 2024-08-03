@@ -18,87 +18,47 @@ def randomNumber():
     random_number = random.randint(0, 1)
     session["random_number"] = random_number
 
-def getNextWord():
-    if "recent_word_list" not in session: #New session for recent words
+def get_random_word_from_db(word_query, count_threshold=5):
+    if "recent_word_list" not in session:
         session["recent_word_list"] = []
 
     recent_word_list = session["recent_word_list"]
 
-    #Make sure there are words in the database to choose from
-    if Word.query.count() == 0:
-        session["random_german_word"] = "No words added in last week"
-        session["random_english_word"] = "No words added in last week"
+    # Make sure there are words in the database to choose from
+    if word_query.count() == 0:
+        session["random_german_word"] = "No words available"
+        session["random_english_word"] = "No words available"
         raise Exception("No words available in the database.")
 
-    #Run a loop to get a word
+    # Run a loop to get a word
     while True:
-        get_random_word = Word.query.order_by(func.random()).first()
+        get_random_word = word_query.order_by(func.random()).first() #Picks a random word from the quaery send from helper functions
         random_english_word = get_random_word.englishWord
-            
-        if Word.query.count() > 5: #If there are more than 5 words in the database
+
+        if word_query.count() > count_threshold:  #If there are more than threshold words in the database
             if random_english_word not in recent_word_list:
                 session["random_german_word"] = get_random_word.germanWord
                 session["random_english_word"] = random_english_word
-                print("English: " + session["random_english_word"] + "\nGerman: " + session["random_german_word"])
-
-                print("0-0-0-0-0-0-0-0-0-0-0-0-0-0-0")
-                for word in recent_word_list:
-                    print(word)
-                print("0-0-0-0-0-0-0-0-0-0-0-0-0-0-0")
 
                 # Update the recent words list
-                if len(recent_word_list) >= 5:  #If the list has 5 or more items, remove the first item (oldest)
+                if len(recent_word_list) >= count_threshold:
                     recent_word_list.pop(0)
 
                 recent_word_list.append(random_english_word)
-                session["recent_word_list"] = recent_word_list  # Update the session list
+                session["recent_word_list"] = recent_word_list
                 break
-        else: #Handle cases where there are 5 or fewer words in the database
+        else:  #Handle cases where there are threshold or fewer words in the database
             session["random_german_word"] = get_random_word.germanWord
-            session["random_english_word"] = random_english_word         
+            session["random_english_word"] = random_english_word
             break
+
+def getNextWord():
+    get_random_word_from_db(Word.query, count_threshold=5)
 
 def getNewWord():
-    if "recent_word_list" not in session: #New session for recent words
-        session["recent_word_list"] = []
-
-    recent_word_list = session["recent_word_list"]
     last_week = datetime.now() - timedelta(days=7)
-
-    #Make sure there are words in the database to choose from
-    if Word.query.filter(Word.dateAdded >= last_week).count() == 0:
-        session["random_german_word"] = "No words added in last week"
-        session["random_english_word"] = "No words added in last week"
-        raise Exception("No words available in the database from last week.")
-
-    #Run a loop to get a word
-    while True:
-
-        get_random_new_word = Word.query.filter(Word.dateAdded >= last_week).order_by(func.random()).first()
-        random_english_word = get_random_new_word.englishWord
-            
-        if Word.query.filter(Word.dateAdded >= last_week).count() > 5: #If there are more than 5 words in the database
-            if random_english_word not in recent_word_list:
-                session["random_german_word"] = get_random_new_word.germanWord
-                session["random_english_word"] = random_english_word
-                print("English: " + session["random_english_word"] + "\nGerman: " + session["random_german_word"])
-
-                print("0-0-0-0-0-0-0-0-0-0-0-0-0-0-0")
-                for word in recent_word_list:
-                    print(word)
-                print("0-0-0-0-0-0-0-0-0-0-0-0-0-0-0")
-
-                # Update the recent words list
-                if len(recent_word_list) >= 5:  #If the list has 5 or more items, remove the first item (oldest)
-                    recent_word_list.pop(0)
-
-                recent_word_list.append(random_english_word)
-                session["recent_word_list"] = recent_word_list  # Update the session list
-                break
-        else: #Handle cases where there are 5 or fewer words in the database
-            session["random_german_word"] = get_random_new_word.germanWord
-            session["random_english_word"] = random_english_word         
-            break
+    new_words_query = Word.query.filter(Word.dateAdded >= last_week)
+    get_random_word_from_db(new_words_query, count_threshold=5)
 
 
 #Check if the user's guess is correct
