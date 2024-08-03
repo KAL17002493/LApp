@@ -56,6 +56,48 @@ def getNextWord():
             session["random_english_word"] = random_english_word         
             break
 
+def getNewWord():
+    if "recent_word_list" not in session: #New session for recent words
+        session["recent_word_list"] = []
+
+    recent_word_list = session["recent_word_list"]
+
+    #Make sure there are words in the database to choose from
+    if Word.query.count() == 0:
+        raise Exception("No words available in the database.")
+    
+    last_week = datetime.now() - timedelta(days=7)
+
+    #Run a loop to get a word
+    while True:
+
+        get_random_new_word = Word.query.filter(Word.dateAdded >= last_week).order_by(func.random()).first()
+        random_english_word = get_random_new_word.englishWord
+            
+        if Word.query.filter(Word.dateAdded >= last_week).count() > 5: #If there are more than 5 words in the database
+            if random_english_word not in recent_word_list:
+                session["random_german_word"] = get_random_new_word.germanWord
+                session["random_english_word"] = random_english_word
+                print("English: " + session["random_english_word"] + "\nGerman: " + session["random_german_word"])
+
+                print("0-0-0-0-0-0-0-0-0-0-0-0-0-0-0")
+                for word in recent_word_list:
+                    print(word)
+                print("0-0-0-0-0-0-0-0-0-0-0-0-0-0-0")
+
+                # Update the recent words list
+                if len(recent_word_list) >= 5:  #If the list has 5 or more items, remove the first item (oldest)
+                    recent_word_list.pop(0)
+
+                recent_word_list.append(random_english_word)
+                session["recent_word_list"] = recent_word_list  # Update the session list
+                break
+        else: #Handle cases where there are 5 or fewer words in the database
+            session["random_german_word"] = get_random_new_word.germanWord
+            session["random_english_word"] = random_english_word         
+            break
+
+
 #Check if the user's guess is correct
 def check_answer(guess, correct_answers):
     if isinstance(correct_answers, list):
