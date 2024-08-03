@@ -63,7 +63,7 @@ def getNewWord():
     recent_word_list = session["recent_word_list"]
 
     #Make sure there are words in the database to choose from
-    if Word.query.count() == 0:
+    if Word.query.filter(Word.dateAdded >= last_week).count() == 0:
         raise Exception("No words available in the database.")
     
     last_week = datetime.now() - timedelta(days=7)
