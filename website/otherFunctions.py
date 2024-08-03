@@ -26,6 +26,8 @@ def getNextWord():
 
     #Make sure there are words in the database to choose from
     if Word.query.count() == 0:
+        session["random_german_word"] = "No words added in last week"
+        session["random_english_word"] = "No words added in last week"
         raise Exception("No words available in the database.")
 
     #Run a loop to get a word
@@ -61,12 +63,13 @@ def getNewWord():
         session["recent_word_list"] = []
 
     recent_word_list = session["recent_word_list"]
+    last_week = datetime.now() - timedelta(days=7)
 
     #Make sure there are words in the database to choose from
     if Word.query.filter(Word.dateAdded >= last_week).count() == 0:
-        raise Exception("No words available in the database.")
-    
-    last_week = datetime.now() - timedelta(days=7)
+        session["random_german_word"] = "No words added in last week"
+        session["random_english_word"] = "No words added in last week"
+        raise Exception("No words available in the database from last week.")
 
     #Run a loop to get a word
     while True:
