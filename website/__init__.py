@@ -15,7 +15,7 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
 
     #This is to create the database if it does not exist (SQLAlchemy will not overwrite the database if it already exists)
-    from .models import Word
+    from .models import Word, UserWordPerformance
     with app.app_context():
         db.create_all()
 

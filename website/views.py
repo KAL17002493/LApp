@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, session
-from .models import Word
+from .models import Word, UserWordPerformance
 from . import db
 import json
-from sqlalchemy.sql import func
 from sqlalchemy import desc #Importing desc to order the words from newest to oldest
 from .otherFunctions import *
 
@@ -16,9 +15,9 @@ def index():
         germanWord = request.form.get("germanWord").strip()
 
         #Check if the word is already in the database and flash an error message if instance of word is found
-        if Word.query.filter_by(englishWord=englishWord).first():
+        if Word.query.filter_by(english_word=englishWord).first():
             flash(f"{englishWord}, already in database", category="error")
-        if Word.query.filter_by(germanWord=germanWord).first():
+        if Word.query.filter_by(german_word=germanWord).first():
             flash(f"{germanWord}, already in database", category="error")
                 
 
@@ -29,7 +28,7 @@ def index():
             if not germanWord:
                 flash("German word field is empty", category="error")
         else:
-            new_word = Word(englishWord=englishWord, germanWord=germanWord)
+            new_word = Word(english_word=englishWord, german_word=germanWord)
             db.session.add(new_word)
             db.session.commit()
             return redirect(url_for("views.index"))
