@@ -39,7 +39,7 @@ def index():
 #Practice page
 @views.route("/practice")
 def practice():
-    firstRandomWord() #Genreates initial random word and stores it in session storage
+    first_random_word() #Genreates initial random word and stores it in session storage
     return render_template("practice.html")
 
 #Practice english to german page
@@ -54,7 +54,7 @@ def english():
         else:
             flash(f"My guess: {guess} || Correct answer: {german_word}", category="wrong")
 
-    getNextWord()
+    get_next_word()
 
     return render_template("english.html", english_word=session["random_english_word"])
 
@@ -72,7 +72,7 @@ def german():
         else:
             flash(f"My guess: {guess} || Correct answer: {english_word}", category="wrong")
 
-        getNextWord()
+        get_next_word()
 
     return render_template("german.html", german_word=session["random_german_word"])
 
@@ -102,10 +102,10 @@ def mix():
                 flash(f"My guess: {guess} || Correct answer: {german_word}", category="wrong")
 
         #Roll the random number again after processing the guess
-        randomNumber()
+        random_number_get()
         random_number = session.get("random_number") #This MUST be here, it handes all of the following random_number checks / guesses (I am tired whiles writing this I could be more specific but cannot be botehred)
 
-    getNextWord()
+    get_next_word()
 
     # Send the correct word to the view
     word_to_display = session.get("random_german_word") if random_number == 0 else session.get("random_english_word")
@@ -138,10 +138,10 @@ def new():
                 flash(f"My guess: {guess} || Correct answer: {german_word}", category="wrong")
 
         #Roll the random number again after processing the guess
-        randomNumber()
+        random_number_get()
         random_number = session.get("random_number") #This MUST be here, it handes all of the following random_number checks / guesses (I am tired whiles writing this I could be more specific but cannot be botehred)
 
-    getNewWord()
+    get_new_word()
 
     # Send the correct word to the view
     word_to_display = session.get("random_german_word") if random_number == 0 else session.get("random_english_word")
