@@ -401,6 +401,11 @@ input::placeholder {
     text-align: center;
 }
 
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2rem;
+    }
+  }
 
 .practice-choices form{ 
     bottom: 15%;

@@ -187,16 +187,6 @@ def terrible():
 
     return render_template("terrible.html", word_to_display=word_to_display)
 
-#Practice terrible at
-@views.route("/session-variables", methods=["GET", "POST"])
-def sessionVariables():
-
-    print("======== Session variables =========")
-    print(session.keys())
-    print("====================================")
-
-    return render_template("info.html")
-
 #Info page
 @views.route("/info")
 def info():
@@ -211,6 +201,8 @@ def delete_word():
     word = Word.query.get(wordId)
 
     if word:
+        # Delete associated UserWordPerformance records first
+        UserWordPerformance.query.filter_by(word_id=wordId).delete()
         db.session.delete(word)
         db.session.commit()
 
