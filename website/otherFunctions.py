@@ -95,3 +95,27 @@ def wrong_answer(is_incorrect):
 
     db.session.add(user_word_performance)
     db.session.commit()
+
+def get_failed_words_from_db(): #Get all words with from database with fail_count greater than 0
+    failed_words = UserWordPerformance.query.filter(UserWordPerformance.fail_count > 0).all()
+
+    if not failed_words:
+        print("No words with failures found in db.")
+        return None
+    return failed_words
+
+def select_word_randomly_with_weights():
+    words_with_failures = get_failed_words_from_db()
+    if not words_with_failures:
+        print("No words with failures found in db.")
+        session["random_german_word"] = "There are no words you are bad at, well done."
+        session["random_english_word"] = "There are no words you are bad at, well done."
+        return
+    
+    words = [uwp.word for uwp in words_with_failures]
+    weights = [uwp.fail_count for uwp in words_with_failures]
+    
+    selected_word = random.choices(words, weights=weights, k=1)[0]
+
+    session["random_german_word"] = selected_word.german_word
+    session["random_english_word"] = selected_word.english_word

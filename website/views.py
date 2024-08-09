@@ -151,11 +151,41 @@ def new():
 #Practice terrible at
 @views.route("/practice/terrible", methods=["GET", "POST"])
 def terrible():
+    random_number = session.get("random_number") #This must be here so for the first round of guesses the code would know what random_number is
 
-    session.clear() #Clear the session storage
-    print("Session cleared")
+    #select_word_randomly_with_weights()
 
-    return render_template("terrible.html")
+    if request.method == "POST":
+        guess = request.form.get("guess").strip()
+
+        if random_number == 0:  # Display in German, guess in English
+            english_word = session.get("random_english_word")
+            check_portion = [part.strip() for part in english_word.split("(")[0].split("/")]  # Handle multiple correct answers
+            correct = check_answer(guess, check_portion)
+
+            if correct:
+                flash(f"{guess} is correct!!!", category="success")
+            else:
+                flash(f"My guess: {guess} || Correct answer: {english_word}", category="wrong")
+        else:  # Display in English, guess in German
+            german_word = session.get("random_german_word")
+
+            if check_answer(guess, german_word):
+                flash("Correct!!!", category="success")
+            else:
+                flash(f"My guess: {guess} || Correct answer: {german_word}", category="wrong")
+
+        #Roll the random number again after processing the guess
+        random_number_get()
+        random_number = session.get("random_number") #This MUST be here, it handes all of the following random_number checks / guesses (I am tired whiles writing this I could be more specific but cannot be botehred)
+
+
+    select_word_randomly_with_weights()
+
+    # Send the correct word to the view
+    word_to_display = session.get("random_german_word") if random_number == 0 else session.get("random_english_word")
+
+    return render_template("terrible.html", word_to_display=word_to_display)
 
 #Practice terrible at
 @views.route("/session-variables", methods=["GET", "POST"])
