@@ -63,7 +63,7 @@ def get_new_word():
 #Check if the user's guess is correct, calls wrong_answer() if the guess is wrong
 def check_answer(guess, correct_answers):
     if isinstance(correct_answers, list):
-        if guess in correct_answers[:2]:
+        if guess in correct_answers:
             wrong_answer(False)
             return True
     elif guess == correct_answers:
