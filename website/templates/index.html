@@ -24,6 +24,7 @@
                 <li class="word-item">
                     <p class="english-word">{{ word.english_word }}</p>
                     <p class="german-word">{{ word.german_word }}</p>
+                    <a href="/edit-word/{{ word.id }}">Edit</a>
                     <button onclick="deleteWord('{{ word.id }}')">Delete</button>
                 </li>
                 {% endfor %}

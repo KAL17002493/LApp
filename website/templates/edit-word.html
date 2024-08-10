@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Edit Word{% endblock %}
+
+{% block pageContent%}
+
+<div class="practice-choices">
+    <form id="guessForm" method="POST">
+        <input autocomplete="off" type="text" id="guess" name="edit-english-word" value="{{ edit_english_word }}">
+        <input autocomplete="off" type="text" id="guess" name="edit-german-word" value="{{ edit_german_word }}">
+        <button type="submit">Save</button>
+    </form>
+</div>
+
+{% endblock %}

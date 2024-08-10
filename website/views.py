@@ -193,6 +193,26 @@ def info():
 
     return render_template("info.html")
 
+@views.route("/edit-word/<int:word_id>", methods=["GET", "POST"])
+def edit_word(word_id):
+    word = Word.query.get_or_404(word_id)
+
+    if request.method == "POST":
+        new_english_word = request.form.get("edit-english-word")
+        new_german_word = request.form.get("edit-german-word")
+
+        # Update the word details
+        word.english_word = new_english_word
+        word.german_word = new_german_word
+
+        # Save changes to the database
+        db.session.commit()
+
+        # Redirect to another page or display a success message
+        return redirect(url_for('views.index'))  # Redirect to a relevant page
+
+    return render_template("edit-word.html", edit_english_word=word.english_word, edit_german_word=word.german_word)
+
 #Delete word route
 @views.route("/delete-word", methods=["POST"])
 def delete_word():
