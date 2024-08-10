@@ -231,6 +231,10 @@ input::placeholder {
     align-items: center; /* Align items vertically centered */
 }
 
+.word-list li:hover { /* Makes list item darker when user hovers over it */
+    background-color: rgb(59, 113, 129);
+}
+
 .word-list li .english-word {
     width: 40%; /* Fixed width for English word  this it to make sure that each following german word start from the same x point*/
     text-align: left; /* Align text to the left */
