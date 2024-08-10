@@ -210,44 +210,53 @@ input::placeholder {
     scrollbar-width: thin;
     overflow-x: hidden;
     border-radius: 5px;
-    height: 460px; /* Ensure it takes the full height */
+    height: 460px;
     background-color: rgb(74, 142, 163);
 }
 
 .word-list ul {
-    list-style: none; /* Remove default list styling */
+    list-style: none;
     margin: 10px 20px;
     padding: 0;
 }
 
 .word-list li {
+    position: relative; /* Position the delete button correctly */
     padding: 10px;
     border-bottom: 1px solid #000;
     color: #000000;
     font-size: 1.2rem;
 
-    display: flex; /* Enables flexbox */
-    flex-direction: row; /* Arrange children horizontally */
-    align-items: center; /* Align items vertically centered */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
-.word-list li:hover { /* Makes list item darker when user hovers over it */
+.word-list li:hover {
     background-color: rgb(59, 113, 129);
 }
 
 .word-list li .english-word {
-    width: 40%; /* Fixed width for English word  this it to make sure that each following german word start from the same x point*/
-    text-align: left; /* Align text to the left */
+    width: 40%;
+    text-align: left;
 }
 
 .word-list li .german-word {
-    width: 40%; /* Fixed width for German word */
-    text-align: left; /* Align text to the left */
-    margin-left: auto; /* Push German word to the right */
+    width: 40%;
+    text-align: left;
+    margin-left: auto;
 }
 
 .word-list li p {
     margin: 0;
+}
+
+.word-list a.word-link {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
 }
 
 .word-list button {
@@ -257,13 +266,18 @@ input::placeholder {
     font-size: 0.95rem;
     cursor: pointer;
     transition: 0.12s ease-in-out;
-    margin-left: 10px; /* Add margin between word and button */
+    margin-left: 10px;
+
+    position: absolute;
+    right: 10px; /* Aligns the button to the right of the list item */
+    top: 50%; /* Centers the button vertically */
+    transform: translateY(-50%);
+    z-index: 1; /* Ensures the button is on top of the link */
 }
 
 .word-list button:hover {
     background-color: rgba(240, 29, 29, 0.85);
 }
-
 
 /*### Index page add word input box and button style ###*/
 .add-word button{
@@ -441,11 +455,44 @@ input::placeholder {
     opacity: 20%;
 }
 
+/*### Practice choices English, German, Mix etc... ###*/
+.edit-page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-page input {
+    font-size: 1.3rem;
+    padding: 10px 15px;
+    width: 300px;
+    text-align: center;
+}
+
+.edit-page button {
+    font-size: 1rem;
+    padding: 10px 15px;
+    width: 200px;
+    text-align: center;
+
+    background-color: #45ad37;
+    border-radius: 3px;
+    transition: 0.15s ease-in-out;
+    cursor: pointer;
+
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.edit-page button:hover{
+    background-color: #53cc43;
+}
+
 /* German characters at bottom of each practice page under the input field */
 .characters{
     display: flex;
     justify-content: center;
-
     bottom: 3.5%;
     position: fixed;
 }
