@@ -457,11 +457,8 @@ input::placeholder {
 
 /*### Practice choices English, German, Mix etc... ###*/
 .edit-page {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
+    width: 100%; /* Ensure the edit-page takes full width of content */
+    text-align: center; /* Center text content within edit-page */
 }
 
 .edit-page input {
