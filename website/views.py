@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, session
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, session, send_file, current_app, abort
 from .models import Word, UserWordPerformance
 from . import db
 import json
-from sqlalchemy import desc #Importing desc to order the words from newest to oldest
+from sqlalchemy import desc  #Importing desc to order the words from newest to oldest
 from .otherFunctions import *
 
 views = Blueprint("views", __name__)
