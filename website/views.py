@@ -216,14 +216,32 @@ def edit_word(word_id):
 #Delete word route
 @views.route("/delete-word", methods=["POST"])
 def delete_word():
-    word = json.loads(request.data)
-    wordId = word["wordId"]
-    word = Word.query.get(wordId)
+    try:
+        data = json.loads(request.data)
+        print("DATA IS:")
+        print(data)
+        
+        # Handle batch deletion
+        wordIds = data.get("wordId")  # wordId is expected to be an array
+        
+        # If wordId is a single value, convert it to a list
+        if not isinstance(wordIds, list):
+            wordIds = [wordIds]
 
-    if word:
-        # Delete associated UserWordPerformance records first
-        UserWordPerformance.query.filter_by(word_id=wordId).delete()
-        db.session.delete(word)
-        db.session.commit()
-
-    return jsonify({})
+        if wordIds:
+            for wordId in wordIds:
+                word = Word.query.get(wordId)
+                
+                if word:
+                    # Delete associated UserWordPerformance records first
+                    UserWordPerformance.query.filter_by(word_id=wordId).delete()
+                    db.session.delete(word)
+                    
+            db.session.commit()
+            return jsonify({"status": "success"}), 200
+        
+        return jsonify({"status": "error", "message": "No valid word IDs provided."}), 400
+    
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"status": "error", "message": str(e)}), 500

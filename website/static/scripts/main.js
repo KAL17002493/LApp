@@ -1,4 +1,49 @@
-console.log('Hello from main.js');
+let wordBatchToDelete = []; // Array of word IDs to be deleted
+let wordCount = parseInt(document.getElementById('wordCount').innerText);
+
+function addToDeleteBatch(itemId) {
+    wordBatchToDelete.push(itemId);
+    sessionStorage.setItem('wordBatchToDelete', JSON.stringify(wordBatchToDelete));
+}
+
+function handleDelete(itemId) {
+    addToDeleteBatch(itemId); // Pushes the word to addToDeleteBatch which will add the word to sessionStorage
+    document.getElementById(`item-${itemId}`).style.display = 'none'; // Hide the item from the UI
+
+    // Decrement the word count and update the number displayed on index.html page
+    wordCount -= 1;
+    document.getElementById('wordCount').innerText = wordCount;
+}
+
+function deleteWordsOnUnload() {
+    if (wordBatchToDelete.length > 0) {
+        const url = '/delete-word';
+        const data = JSON.stringify({ wordId: wordBatchToDelete });
+
+        // Try using sendBeacon first
+        const blob = new Blob([data], { type: 'application/json' });
+        const sent = navigator.sendBeacon(url, blob);
+
+        // If sendBeacon failed, fallback to fetch
+        if (!sent) {
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: data,
+            }).catch(error => {
+                console.error('Fallback fetch failed:', error);
+            });
+        }
+
+        // Clear session storage after attempting to send the request
+        sessionStorage.removeItem('wordBatchToDelete');
+    }
+}
+
+// Attach the function to the beforeunload event
+window.addEventListener('beforeunload', deleteWordsOnUnload);
 
 //When pressing 1 - 4 on keayboard, the german characters will be added to the input field (ä, ü, ö, ß)
 //Shift + 1 - 4 will add the uppercase version of the characters (Ä, Ü, Ö, ẞ)
@@ -107,13 +152,3 @@ document.getElementById('searchWord').addEventListener('input', function() {
         }
     });
 });
-
-//Function to delete a word
-function deleteWord(wordId){
-    fetch('/delete-word', {
-        method: 'POST',
-        body: JSON.stringify({ wordId: wordId }),
-    }).then((_res) => {
-        window.location.href = '/';
-    });
-}

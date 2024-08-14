@@ -6,7 +6,7 @@
 <div class="grid-container-index">
     <div>
         <div class="word-count">
-            <h1>{{ wordCount }}</h1>
+            <h1 id="wordCount">{{ wordCount }}</h1>
             <p>Word Count</p>
         </div>
 
@@ -19,12 +19,12 @@
         <div class="word-list">
             <ul>
                 {% for word in words %}
-                <li class="word-item">
+                <li class="word-item" id="item-{{ word.id }}">
                     <a href="/edit-word/{{ word.id }}" class="word-link">
                         <p class="english-word">{{ word.english_word }}</p>
                         <p class="german-word">{{ word.german_word }}</p>
                     </a>
-                    <button onclick="deleteWord('{{ word.id }}')">Delete</button>
+                    <button onclick="handleDelete('{{ word.id }}')">Delete</button>
                 </li>
                 {% endfor %}
             </ul>
