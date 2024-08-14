@@ -16,9 +16,11 @@ def index():
 
         #Check if the word is already in the database and flash an error message if instance of word is found
         if Word.query.filter_by(english_word=englishWord).first():
-            flash(f"{englishWord}, already in database", category="error")
+            flash(f"English word: {englishWord}, already in database", category="error")
+            return (redirect(url_for("views.index")))
         if Word.query.filter_by(german_word=germanWord).first():
-            flash(f"{germanWord}, already in database", category="error")
+            flash(f"German word: {germanWord}, already in database", category="error")
+            return (redirect(url_for("views.index")))
                 
 
         #Check if the word fields are empty

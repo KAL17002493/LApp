@@ -1,4 +1,4 @@
-let wordBatchToDelete = []; // Array of word IDs to be deleted
+let wordBatchToDelete = JSON.parse(sessionStorage.getItem('wordBatchToDelete')) || []; // Load batch from sessionStorage or initialize an empty array
 let wordCount = parseInt(document.getElementById('wordCount').innerText);
 
 function addToDeleteBatch(itemId) {
@@ -7,24 +7,40 @@ function addToDeleteBatch(itemId) {
 }
 
 function handleDelete(itemId) {
-    addToDeleteBatch(itemId); // Pushes the word to addToDeleteBatch which will add the word to sessionStorage
+    addToDeleteBatch(itemId);
     document.getElementById(`item-${itemId}`).style.display = 'none'; // Hide the item from the UI
 
-    // Decrement the word count and update the number displayed on index.html page
     wordCount -= 1;
     document.getElementById('wordCount').innerText = wordCount;
+    sessionStorage.setItem('wordCount', wordCount); // Persist the updated word count
 }
 
-function deleteWordsOnUnload() {
+function removeWordsFromDOM() {
+    if (wordBatchToDelete.length > 0) {
+        wordBatchToDelete.forEach(wordId => {
+            const wordElement = document.getElementById(`item-${wordId}`);
+            if (wordElement) {
+                wordElement.style.display = 'none';  // Hide the element immediately
+            }
+        });
+        
+        // Update the word count from sessionStorage if available
+        const savedWordCount = sessionStorage.getItem('wordCount');
+        if (savedWordCount !== null) {
+            wordCount = parseInt(savedWordCount);
+            document.getElementById('wordCount').innerText = wordCount;
+        }
+    }
+}
+
+function deleteWords() {
     if (wordBatchToDelete.length > 0) {
         const url = '/delete-word';
         const data = JSON.stringify({ wordId: wordBatchToDelete });
 
-        // Try using sendBeacon first
         const blob = new Blob([data], { type: 'application/json' });
         const sent = navigator.sendBeacon(url, blob);
 
-        // If sendBeacon failed, fallback to fetch
         if (!sent) {
             fetch(url, {
                 method: 'POST',
@@ -32,18 +48,32 @@ function deleteWordsOnUnload() {
                     'Content-Type': 'application/json',
                 },
                 body: data,
+            }).then(response => {
+                if (response.ok) {
+                    // Clear the batch after successful deletion
+                    wordBatchToDelete = [];
+                    sessionStorage.removeItem('wordBatchToDelete');
+                } else {
+                    console.error('Deletion failed, reloading page might show incorrect data.');
+                }
             }).catch(error => {
                 console.error('Fallback fetch failed:', error);
             });
+        } else {
+            // Clear the batch after successful deletion
+            wordBatchToDelete = [];
+            sessionStorage.removeItem('wordBatchToDelete');
         }
-
-        // Clear session storage after attempting to send the request
-        sessionStorage.removeItem('wordBatchToDelete');
     }
 }
 
-// Attach the function to the beforeunload event
-window.addEventListener('beforeunload', deleteWordsOnUnload);
+// Remove the words from the DOM when the page loads
+window.addEventListener('load', removeWordsFromDOM);
+
+// Automatically delete words if there are any in the batch on page load
+window.addEventListener('load', deleteWords);
+
+
 
 //When pressing 1 - 4 on keayboard, the german characters will be added to the input field (ä, ü, ö, ß)
 //Shift + 1 - 4 will add the uppercase version of the characters (Ä, Ü, Ö, ẞ)
