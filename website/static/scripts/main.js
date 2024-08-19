@@ -1,38 +1,33 @@
-console.log('Hello from main.js');
-
 //When pressing 1 - 4 on keayboard, the german characters will be added to the input field (ä, ü, ö, ß)
 //Shift + 1 - 4 will add the uppercase version of the characters (Ä, Ü, Ö, ẞ)
 document.addEventListener('DOMContentLoaded', (event) => {
-    const input = document.getElementById('guess');
+    const input = document.getElementById('guess'); //Checks if the input field exists on the page (Removes errors fomr devtool screen)
     
-    // Mapping of keys to custom characters
-    const keyMapping = {
-        'Digit1': { normal: 'ä', shift: 'Ä' },
-        'Digit2': { normal: 'ü', shift: 'Ü' },
-        'Digit3': { normal: 'ö', shift: 'Ö' },
-        'Digit4': { normal: 'ß', shift: 'ẞ' }
-    };
+    if (input) {
+        // Mapping of keys to custom characters
+        const keyMapping = {
+            'Digit1': { normal: 'ä', shift: 'Ä' },
+            'Digit2': { normal: 'ü', shift: 'Ü' },
+            'Digit3': { normal: 'ö', shift: 'Ö' },
+            'Digit4': { normal: 'ß', shift: 'ẞ' }
+        };
 
-    input.addEventListener('keydown', (e) => {
-        // Check if the pressed key is in the keyMapping object
-        if (keyMapping.hasOwnProperty(e.code)) {
-            e.preventDefault(); // Prevent the default character from being entered
+        input.addEventListener('keydown', (e) => {
+            if (keyMapping.hasOwnProperty(e.code)) {
+                e.preventDefault();
 
-            // Determine if shift key is pressed
-            const isShiftPressed = e.shiftKey;
+                const isShiftPressed = e.shiftKey;
+                const start = input.selectionStart;
+                const end = input.selectionEnd;
+                const customChar = isShiftPressed ? keyMapping[e.code].shift : keyMapping[e.code].normal;
 
-            // Get the current cursor position
-            const start = input.selectionStart;
-            const end = input.selectionEnd;
+                input.value = input.value.slice(0, start) + customChar + input.value.slice(end);
+                input.setSelectionRange(start + 1, start + 1);
+            }
+        });
 
-            // Get the custom character from the keyMapping
-            const customChar = isShiftPressed ? keyMapping[e.code].shift : keyMapping[e.code].normal;
-            input.value = input.value.slice(0, start) + customChar + input.value.slice(end);
-
-            // Move the cursor to the correct position after the insertion
-            input.setSelectionRange(start + 1, start + 1);
-        }
-    });
+        input.focus();
+    }
 });
 
 //Add german characters to the input field when the buttons are clicked
@@ -88,8 +83,15 @@ buttons.forEach(button => {
 
 //Function to focus on the input field when the page loads (mouse stays in the input field after making a word guess)
 document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("guess").focus();
+    const input = document.getElementById('guess'); //Checks if the input field exists on the page (Removes errors fomr devtool screen)
+
+    if (input) {
+        document.getElementById("guess").focus();
+    }
 });
+
+const input = document.getElementById('searchWord'); //Checks if the input field exists on the page (Removes errors fomr devtool screen)
+if (input) {
 
 //Function to search for a word
 document.getElementById('searchWord').addEventListener('input', function() {
@@ -107,6 +109,7 @@ document.getElementById('searchWord').addEventListener('input', function() {
         }
     });
 });
+}
 
 //Function to delete a word
 function deleteWord(wordId){
