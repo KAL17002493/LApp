@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, session, send_file, current_app, abort
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, session
 from .models import Word, UserWordPerformance
 from . import db
 import json

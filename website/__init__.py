@@ -1,5 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import webbrowser
+#from threading import Timer
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
@@ -19,4 +21,8 @@ def create_app():
     with app.app_context():
         db.create_all()
 
+    open_browser()
     return app
+
+def open_browser(): # Open the browser after 1 second automatically
+      webbrowser.open_new("http://127.0.0.1:5000")
