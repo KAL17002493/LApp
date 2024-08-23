@@ -1,3 +1,5 @@
+
+
 //When pressing 1 - 4 on keayboard, the german characters will be added to the input field (ä, ü, ö, ß)
 //Shift + 1 - 4 will add the uppercase version of the characters (Ä, Ü, Ö, ẞ)
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -38,8 +40,8 @@ document.querySelectorAll('.addChar').forEach(button => {
 
 // Add German characters to the input field when the buttons are clicked
 function addCharacter(event) {
-     // Get the character from the data-char attribute
-    let char = event.target.getAttribute('data-char');
+     // Get the character from the words-char attribute
+    let char = event.target.getAttribute('words-char');
         
     // Check if the Shift key is pressed
     if (event.shiftKey) {
@@ -63,7 +65,7 @@ document.addEventListener('keyup', handleShiftKey);
 function handleShiftKey(event) {
     const isShiftPressed = event.shiftKey;
     document.querySelectorAll('.addChar').forEach(button => {
-        let char = button.getAttribute('data-char');
+        let char = button.getAttribute('words-char');
         if (isShiftPressed) {
             if (char === 'ä') button.textContent = 'Ä';
             else if (char === 'ü') button.textContent = 'Ü';
@@ -111,12 +113,75 @@ document.getElementById('searchWord').addEventListener('input', function() {
 });
 }
 
-//Function to delete a word
-function deleteWord(wordId){
-    fetch('/delete-word', {
-        method: 'POST',
-        body: JSON.stringify({ wordId: wordId }),
-    }).then((_res) => {
-        window.location.href = '/';
-    });
+//The following code is for the deletion of words!!!
+//The following code is for the deletion of words!!!
+//The following code is for the deletion of words!!!
+
+//Function to delete a word or list of words
+function markForDeletion(wordId)
+{
+    let wordsToDelete = JSON.parse(sessionStorage.getItem('wordsToDelete')) || [];
+
+    if (!wordsToDelete.includes(wordId)) //Prevents duplicate IDs from being added
+    { 
+        wordsToDelete.push(wordId);
+        sessionStorage.setItem('wordsToDelete', JSON.stringify(wordsToDelete));
+        hideItemMarkedForDeletion(wordId);
+    }
 }
+
+function hideItemMarkedForDeletion(wordId)
+{
+    //console.log("Hiding word with ID: " + wordId); //Console log to check if the function is working
+    const wordItem = document.getElementById(wordId);
+    if (sessionStorage.getItem('wordsToDelete').includes(wordId))
+    {
+        wordItem.style.display = 'none';
+    }
+}
+
+document.addEventListener("visibilitychange", function()
+{
+    if (document.visibilityState === 'hidden')
+    {
+        deleteWords();
+    }
+});
+
+function deleteWords()
+{
+    //Parse the words to delete from session storage
+    let wordsToDelete = JSON.parse(sessionStorage.getItem('wordsToDelete'));
+
+    if(wordsToDelete !== null) //Runs IF wordsToDelete is not null
+    {
+        const url = '/delete-word';
+        const requestBody = JSON.stringify({ wordsToDelete: wordsToDelete });
+
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: requestBody
+        }).then(response => {
+            if (response.ok) {
+                // Clear the batch after successful deletion
+                
+            } else {
+                console.error('Deletion failed: ' + response.statusText);
+            }
+        }).catch(error => {
+            console.error('Fetch failed:', error);
+        });
+
+        sessionStorage.clear("wordsToDelete");
+    }
+    else
+    {
+        //No words to delete, so just clear the session storage
+        console.log("No words to delete, clearing wordsToDelete from session storage");
+    }
+}
+
+//Code responsible for the deletion of words ends here!!!
+//Code responsible for the deletion of words ends here!!!
+//Code responsible for the deletion of words ends here!!!

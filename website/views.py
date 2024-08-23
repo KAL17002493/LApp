@@ -218,14 +218,40 @@ def edit_word(word_id):
 #Delete word route
 @views.route("/delete-word", methods=["POST"])
 def delete_word():
-    word = json.loads(request.data)
-    wordId = word["wordId"]
-    word = Word.query.get(wordId)
+    try:
+        data = json.loads(request.data)
+        print("DATA RECEIVED:", data)
+        
+        # Get the word IDs
+        wordIds = data.get("wordsToDelete")  # Expecting a list
+        
+        # Ensure it's a list
+        if not isinstance(wordIds, list):
+            wordIds = [wordIds]
+        
+        print("WORD IDs:", wordIds)  # Debugging output
 
-    if word:
-        # Delete associated UserWordPerformance records first
-        UserWordPerformance.query.filter_by(word_id=wordId).delete()
-        db.session.delete(word)
-        db.session.commit()
-
-    return jsonify({})
+        # Proceed with deletion if wordIds is valid
+        if wordIds:
+            for wordId in wordIds:
+                print(f"Processing wordId: {wordId}")  # Debugging output
+                # Ensure wordId is the correct type (e.g., int)
+                word = Word.query.get(int(wordId))  # Convert if needed
+                
+                if word:
+                    print(f"Deleting wordId: {wordId}")
+                    # Delete associated records first
+                    UserWordPerformance.query.filter_by(word_id=wordId).delete()
+                    db.session.delete(word)
+                else:
+                    print(f"Word with ID {wordId} not found")  # Debugging output
+                    
+            db.session.commit()
+            return jsonify({"status": "success"}), 200
+        
+        return jsonify({"status": "error", "message": "No valid word IDs provided."}), 400
+    
+    except Exception as e:
+        db.session.rollback()
+        print("ERROR:", str(e))  # Debugging output
+        return jsonify({"status": "error", "message": str(e)}), 500
