@@ -160,6 +160,11 @@ def terrible():
     if request.method == "POST":
         guess = request.form.get("guess").strip()
 
+        if not guess: #Check if the guess is empty and flash an error message if it is and return the same word until a guess is made
+            flash("Please enter a guess", category="error")
+            return render_template("terrible.html", word_to_display=session.get("random_german_word") if random_number == 0 else session.get("random_english_word"))
+            
+
         if random_number == 0:  # Display in German, guess in English
             english_word = session.get("random_english_word")
             check_portion = [part.strip() for part in english_word.split("(")[0].split("/")]  # Handle multiple correct answers
