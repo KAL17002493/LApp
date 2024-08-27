@@ -1,3 +1,33 @@
+//Count up clock bellow this
+// Get the stored start time from sessionStorage or initialize it to the current time
+var startTime = parseInt(sessionStorage.getItem('startTime')) || Date.now();
+
+// Function to update the timer
+function updateTimer() {
+  // Calculate the total elapsed time in seconds
+  var elapsedMilliseconds = Date.now() - startTime;
+  var totalSeconds = Math.floor(elapsedMilliseconds / 1000);
+
+  // Store the start time in sessionStorage
+  sessionStorage.setItem('startTime', startTime);
+
+  // Calculate hours, minutes, and seconds
+  var hour = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
+  var minute = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+  var seconds = (totalSeconds % 60).toString().padStart(2, '0');
+
+  // Update the timer display
+  document.getElementById('countUpTimer').innerHTML = hour + ':' + minute + ':' + seconds;
+}
+
+// Immediately update the timer display on page load
+updateTimer();
+
+// Start the interval to update the timer every second
+var timerVariable = setInterval(updateTimer, 1000);
+
+
+
 //When pressing 1 - 4 on keayboard, the german characters will be added to the input field (ä, ü, ö, ß)
 //Shift + 1 - 4 will add the uppercase version of the characters (Ä, Ü, Ö, ẞ)
 document.addEventListener('DOMContentLoaded', (event) => {
