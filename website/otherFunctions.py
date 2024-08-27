@@ -25,9 +25,9 @@ def get_random_word_from_db(word_query, count_threshold=5):
 
     # Make sure there are words in the database to choose from
     if word_query.count() == 0:
-        session["random_german_word"] = "No words available"
-        session["random_english_word"] = "No words available"
-        print ("No words available in the database.")
+        session["random_german_word"] = "No new words found"
+        session["random_english_word"] = "No new words found"
+        print ("No new words found")
         return
 
     # Run a loop to get a word
@@ -108,8 +108,8 @@ def select_word_randomly_with_weights():
     words_with_failures = get_failed_words_from_db()
     if not words_with_failures:
         print("No words with failures found in db.")
-        session["random_german_word"] = "There are no words you are bad at, well done."
-        session["random_english_word"] = "There are no words you are bad at, well done."
+        session["random_german_word"] = "There are no words you are terrible at, well done."
+        session["random_english_word"] = "There are no words you are terrible at, well done."
         return
     
     words = [uwp.word for uwp in words_with_failures]
