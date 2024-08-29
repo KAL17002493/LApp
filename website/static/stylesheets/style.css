@@ -126,7 +126,7 @@ input::placeholder {
     margin: 10px 0;
 }
 
-.nav ul li:hover {
+.nav ul li:not(:first-child):hover {
     position: relative;
     left: -5px;
     top: -5px;
