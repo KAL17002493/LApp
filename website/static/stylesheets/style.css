@@ -126,9 +126,10 @@ input::placeholder {
     margin: 10px 0;
 }
 
-.nav ul li a:hover {
-    background-color: #555;
-    color: white;
+.nav ul li:hover {
+    position: relative;
+    left: -5px;
+    top: -5px;
 }
 
 .upTimeLabel {
