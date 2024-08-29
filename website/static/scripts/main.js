@@ -32,6 +32,12 @@ var timerVariable = setInterval(updateTimer, 1000);
 //Shift + 1 - 4 will add the uppercase version of the characters (Ä, Ü, Ö, ẞ)
 document.addEventListener('DOMContentLoaded', (event) => {
     const input = document.getElementById('guess');
+
+    if(input) {
+        //Function to focus on the input field when the page loads (mouse stays in the input field after making a word guess)
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("guess").focus(); });
+    }
     
     if (input) {
         const keyMapping = {
@@ -100,13 +106,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         });
     }
-});
-
-
-
-//Function to focus on the input field when the page loads (mouse stays in the input field after making a word guess)
-document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("guess").focus();
 });
 
 //Search for a word
