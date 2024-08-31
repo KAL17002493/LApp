@@ -1,1 +1,1 @@
-Make look nicer for practice puposes if nothing else
+make look nicer for practice purposes if nothing else
