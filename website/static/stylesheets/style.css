@@ -126,6 +126,7 @@ input::placeholder {
     margin: 10px 0;
 }
 
+/*Displaces the nav bar items slighty on hovering over them with the exclusion of 1st item which is the timer*/
 .nav ul li:not(:first-child):hover {
     position: relative;
     left: -5px;
